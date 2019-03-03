@@ -1,3 +1,4 @@
+.idea
 *.bkp
 cmake-build-debug
 *.test
