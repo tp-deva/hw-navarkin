@@ -42,7 +42,7 @@ size_t get_lines(char ***lines, FILE *stream);
  *  @param line ptr to line
  *  @return line without extra ws
  */
-char *trunc_extra_ws(char *line);
+char *trunc_extra_ws(const char *line);
 
 /*! @brief Removes extra whitespaces from lines in array
  *
@@ -50,7 +50,7 @@ char *trunc_extra_ws(char *line);
  * @param n number of lines in array
  * @return new allocated array of lines without extra whitespaces
  */
-char **trunc_extra_ws_arr(char **lines, size_t n);
+char **trunc_extra_ws_arr(const char * const *lines, size_t n);
 
 /*! @brief Frees memory previously allocated for array of lines
  *
@@ -67,7 +67,7 @@ int main() {
     return 0;
   }
 
-  char **trunc_lines = trunc_extra_ws_arr(lines, size);
+  char **trunc_lines = trunc_extra_ws_arr((const char **)lines, size);
   if (!trunc_lines) {
     free_lines_arr(lines, size);
     PERROR;
@@ -96,7 +96,7 @@ void free_lines_arr(char **string_arr, size_t n) {
   free(string_arr);
 }
 
-char **trunc_extra_ws_arr(char **lines, size_t n) {
+char **trunc_extra_ws_arr(const char * const *lines, size_t n) {
   if (!lines || n <= 0) {
     return NULL;
   }
@@ -119,7 +119,7 @@ char **trunc_extra_ws_arr(char **lines, size_t n) {
   return lines_trunc;
 }
 
-char *trunc_extra_ws(char *line) {
+char *trunc_extra_ws(const char *line) {
   if (!line) {
     return NULL;
   }
