@@ -29,16 +29,34 @@
  * На выход функция должна возвращать массив обработанных строк.
  * */
 
-// Get lines from stream and store them into lines ptr
+/*! @brief Get lines from stream and store them into lines ptr
+ *
+ *  @param ptr lines arrays of strings write to can be NULL
+ *  @param stream read from, if NULL stdin will be used
+ *  @return number of read lines
+ */
 size_t get_lines(char ***lines, FILE *stream);
 
-// Removes extra whitespace from line
+/*! @brief Removes extra whitespace from line
+ *
+ *  @param line ptr to line
+ *  @return line without extra ws
+ */
 char *trunc_extra_ws(char *line);
 
-// Removes extra whitespaces from lines in array
+/*! @brief Removes extra whitespaces from lines in array
+ *
+ * @param lines array of lines
+ * @param n number of lines in array
+ * @return new allocated array of lines without extra whitespaces
+ */
 char **trunc_extra_ws_arr(char **lines, size_t n);
 
-// Frees memory previously allocated for array of lines
+/*! @brief Frees memory previously allocated for array of lines
+ *
+ * @param string_arr array of string previously allocated in dyn mem
+ * @param n number of lines in array
+ */
 void free_lines_arr(char **string_arr, size_t n);
 
 int main() {
