@@ -7,6 +7,12 @@
 
 #define LINE_ARR_ALLOC_SIZE 10
 
+#define PERROR puts("ERROR")
+
+//TODO: set const
+//TODO: definable buffer for lines
+//TODO: maybe better comments
+
 /*
  * Navarkin Alexey АПО-12 A-8
  * Составить программу построчной обработки текста,
@@ -23,13 +29,11 @@
  * На выход функция должна возвращать массив обработанных строк.
  * */
 
-//TODO: maybe realloc on EOF and \n but it harms on speed
-
 // Get lines from stream and store them into lines ptr
 size_t get_lines(char ***lines, FILE *stream);
 
 // Removes extra whitespace from line
-char *trunc_extra_ws(const char *line);
+char *trunc_extra_ws(char *line);
 
 // Removes extra whitespaces from lines in array
 char **trunc_extra_ws_arr(char **lines, size_t n);
@@ -41,14 +45,14 @@ int main() {
   char **lines = NULL;
   size_t size = get_lines(&lines, stdin);
   if (!lines || size <= 0) {
-    puts("[error]");
+    PERROR;
     return 0;
   }
 
   char **trunc_lines = trunc_extra_ws_arr(lines, size);
   if (!trunc_lines) {
     free_lines_arr(lines, size);
-    puts("[error]");
+    PERROR;
     return 0;
   }
 
@@ -93,7 +97,39 @@ char **trunc_extra_ws_arr(char **lines, size_t n) {
     }
     lines_trunc[i] = line;
   }
+
   return lines_trunc;
+}
+
+char *trunc_extra_ws(char *line) {
+  if (!line) {
+    return NULL;
+  }
+
+  size_t size = strlen(line) + 1;
+  char *res_line = (char *)malloc(size);
+  if (!res_line) {
+    return NULL;
+  }
+
+  size_t pos = 0;
+  for (size_t i = 0; line[i] != '\0'; ++i) {
+    if (line[i] == ' ' && line[i] == line[i + 1]) {
+      continue;
+    }
+    res_line[pos++] = line[i];
+  }
+  res_line[pos++] = '\0';
+
+  if (pos != size) {
+    char *tmp_line = realloc(res_line, pos);
+    if(!tmp_line) {
+      return NULL;
+    }
+    res_line = tmp_line;
+  }
+
+  return res_line;
 }
 
 size_t get_lines(char ***lines, FILE *stream) {
@@ -129,25 +165,16 @@ size_t get_lines(char ***lines, FILE *stream) {
     line_len = 0;
     line = NULL;
   }
+
+  if (pos != LINE_ARR_ALLOC_SIZE * n_alloc) {
+    char **tmp_lines = (char **)realloc(*lines, pos);
+      if(!tmp_lines) {
+      //should it throw error on fault?
+      //lines ptr is not corrupted we can return it
+      } else {
+        (*lines) = tmp_lines;
+      }
+  }
+
   return pos;
-}
-
-char *trunc_extra_ws(const char *line) {
-  if (!line) {
-    return NULL;
-  }
-
-  size_t pos = 0;
-  char *res_line = (char *)malloc(strlen(line) + 1);
-  if (!res_line) {
-    return NULL;
-  }
-  for (size_t i = 0; line[i] != '\0'; ++i) {
-    if (line[i] == ' ' && line[i] == line[i + 1]) {
-      continue;
-    }
-    res_line[pos++] = line[i];
-  }
-  res_line[pos] = '\0';
-  return res_line;
 }
