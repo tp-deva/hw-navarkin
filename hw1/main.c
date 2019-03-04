@@ -116,7 +116,7 @@ char **trunc_extra_ws_arr(const char *const *lines, size_t n) {
 }
 
 char *trunc_extra_ws(const char *line) {
-  if (line == NULL) {
+  if (!line) {
     return NULL;
   }
 
@@ -140,6 +140,8 @@ char *trunc_extra_ws(const char *line) {
     if (!tmp_line) {
       free(res_line);
       return NULL;
+      // should it throw error on fault?
+      // res_line ptr is not corrupted we can return it
     }
     res_line = tmp_line;
   }
@@ -176,6 +178,7 @@ size_t get_lines(char ***lines, FILE *stream) {
       }
       *lines = lines_new;
     }
+
     (*lines)[pos++] = line;
     line_len = 0;
     line = NULL;
