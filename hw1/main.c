@@ -9,10 +9,6 @@
 
 #define PERROR puts("ERROR")
 
-//TODO: set const
-//TODO: definable buffer for lines
-//TODO: maybe better comments
-
 /*
  * Navarkin Alexey АПО-12 A-8
  * Составить программу построчной обработки текста,
@@ -50,7 +46,7 @@ char *trunc_extra_ws(const char *line);
  * @param n number of lines in array
  * @return new allocated array of lines without extra whitespaces
  */
-char **trunc_extra_ws_arr(const char * const *lines, size_t n);
+char **trunc_extra_ws_arr(const char *const *lines, size_t n);
 
 /*! @brief Frees memory previously allocated for array of lines
  *
@@ -96,7 +92,7 @@ void free_lines_arr(char **string_arr, size_t n) {
   free(string_arr);
 }
 
-char **trunc_extra_ws_arr(const char * const *lines, size_t n) {
+char **trunc_extra_ws_arr(const char *const *lines, size_t n) {
   if (!lines || n <= 0) {
     return NULL;
   }
@@ -141,7 +137,7 @@ char *trunc_extra_ws(const char *line) {
 
   if (pos != size) {
     char *tmp_line = realloc(res_line, pos);
-    if(!tmp_line) {
+    if (!tmp_line) {
       return NULL;
     }
     res_line = tmp_line;
@@ -186,12 +182,12 @@ size_t get_lines(char ***lines, FILE *stream) {
 
   if (pos != LINE_ARR_ALLOC_SIZE * n_alloc) {
     char **tmp_lines = (char **)realloc(*lines, pos);
-      if(!tmp_lines) {
-      //should it throw error on fault?
-      //lines ptr is not corrupted we can return it
-      } else {
-        (*lines) = tmp_lines;
-      }
+    if (!tmp_lines) {
+      // should it throw error on fault?
+      // lines ptr is not corrupted we can return it
+    } else {
+      (*lines) = tmp_lines;
+    }
   }
 
   return pos;
