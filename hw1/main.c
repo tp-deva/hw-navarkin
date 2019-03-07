@@ -58,7 +58,7 @@ void free_lines_arr(char **string_arr, size_t n);
 int main() {
   char **lines = NULL;
   size_t size = get_lines(&lines, stdin);
-  if (!lines || size <= 0) {
+  if (!lines) {
     PERROR;
     return 0;
   }
@@ -81,7 +81,7 @@ int main() {
 }
 
 void free_lines_arr(char **string_arr, size_t n) {
-  if (!string_arr || n <= 0) {
+  if (!string_arr) {
     return;
   }
   for (size_t i = 0; i < n; ++i) {
@@ -93,7 +93,7 @@ void free_lines_arr(char **string_arr, size_t n) {
 }
 
 char **trunc_extra_ws_arr(const char *const *lines, size_t n) {
-  if (!lines || n <= 0) {
+  if (!lines) {
     return NULL;
   }
 
