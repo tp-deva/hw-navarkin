@@ -102,7 +102,7 @@ char **trunc_extra_ws_arr(const char *const *lines, size_t n) {
     return NULL;
   }
 
-  char *line;
+  char *line = NULL;
   for (size_t i = 0; i < n; ++i) {
     line = trunc_extra_ws(lines[i]);
     if (!line) {
